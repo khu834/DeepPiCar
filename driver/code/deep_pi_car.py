@@ -39,7 +39,7 @@ class DeepPiCar(object):
 
         logging.debug('Set up front wheels')
         self.front_wheels = picar.front_wheels.Front_Wheels()
-        self.front_wheels.turning_offset = -25  # calibrate servo to center
+        self.front_wheels.turning_offset = 15  # calibrate servo to center
         self.front_wheels.turn(90)  # Steering Range is 45 (left) - 90 (center) - 135 (right)
 
         self.lane_follower = HandCodedLaneFollower(self)
@@ -48,9 +48,9 @@ class DeepPiCar(object):
 
         self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
         datestr = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
-        self.video_orig = self.create_video_recorder('../data/tmp/car_video%s.avi' % datestr)
-        self.video_lane = self.create_video_recorder('../data/tmp/car_video_lane%s.avi' % datestr)
-        self.video_objs = self.create_video_recorder('../data/tmp/car_video_objs%s.avi' % datestr)
+        self.video_orig = self.create_video_recorder('../data/car_video%s.avi' % datestr)
+        self.video_lane = self.create_video_recorder('../data/car_video_lane%s.avi' % datestr)
+        self.video_objs = self.create_video_recorder('../data//car_video_objs%s.avi' % datestr)
 
         logging.info('Created a DeepPiCar')
 
@@ -96,9 +96,9 @@ class DeepPiCar(object):
             i += 1
             self.video_orig.write(image_lane)
 
-            image_objs = self.process_objects_on_road(image_objs)
-            self.video_objs.write(image_objs)
-            show_image('Detected Objects', image_objs)
+            #image_objs = self.process_objects_on_road(image_objs)
+            #self.video_objs.write(image_objs)
+            #show_image('Detected Objects', image_objs)
 
             image_lane = self.follow_lane(image_lane)
             self.video_lane.write(image_lane)
@@ -113,7 +113,7 @@ class DeepPiCar(object):
         return image
 
     def follow_lane(self, image):
-        #image = self.lane_follower.follow_lane(image)
+        image = self.lane_follower.follow_lane(image)
         return image
 
 
@@ -127,7 +127,7 @@ def show_image(title, frame, show=_SHOW_IMAGE):
 
 def main():
     with DeepPiCar() as car:
-        car.drive(40)
+        car.drive(28)
 
 
 if __name__ == '__main__':
