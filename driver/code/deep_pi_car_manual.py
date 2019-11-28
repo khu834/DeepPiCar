@@ -2,6 +2,7 @@ import logging
 import picar
 import cv2
 import datetime
+import getch
 #change lane follower
 from manual_drive_follower import ManualDriveLaneFollower
 #from objects_on_road_processor import ObjectsOnRoadProcessor
@@ -108,21 +109,25 @@ class DeepPiCar(object):
             
             #manual control (comment this out if using cv2 or deeplearninglanefollower)
             #left turn
-            if cv2.waitKey(0) & 0xFF == ord('a'):
-                image_lane = self.manual_drive(image_lane, 'a')
             #right turn
-            if cv2.waitKey(0) & 0xFF == ord('d'):
+            '''if cv2.waitKey(1) & 0xFF == ord('d'):
                 image_lane = self.manual_drive(image_lane, 'd')
+                
+            if cv2.waitKey(1) & 0xFF == ord('a'):
+                image_lane = self.manual_drive(image_lane, 'a')
+            
             #straigt
-            if cv2.waitKey(0) & 0xFF == ord('s'):
+            if cv2.waitKey(1) & 0xFF == ord('s'):
                 image_lane = self.manual_drive(image_lane, 's')          
                         
             #speed decrease (not implemented yet)
             #if cv2.waitKey(1) & 0xFF == ord('w'):
             
             #speed increase (not implemented yet)
-            #if cv2.waitKey(1) & 0xFF == ord('e'):
-            
+            #if cv2.waitKey(1) & 0xFF == ord('e'):'''
+            if cv2.waitKey(1):
+                input = getch.getch()
+                image_lane = self.manual_drive(image_lane, input)
             #this should always be avalible dont comment out
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 self.cleanup()
