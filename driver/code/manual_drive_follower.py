@@ -35,30 +35,32 @@ class ManualDriveLaneFollower(object):
         if input == 'a':
             new_steering_angle = self.curr_steering_angle - 5
             #steering angle should never go below 0 or above 130
-            if new_steering_angle <= 45:
+            if new_steering_angle < 45:
                 new_steering_angle = 45
         if input == 'd':
             new_steering_angle = self.curr_steering_angle + 5
             #steering angle should never go below 0 or above 130
-            if new_steering_angle >= 135:
+            if new_steering_angle > 135:
                 new_steering_angle = 135
         if input == 's':
             new_steering_angle = 90
-        else:
-            new_steering_angle = self.steering_angle
+        if input == 'n' :
+            new_steering_angle = self.curr_steering_angle
+          
         #getting rid of turn stabilization for now
         #self.curr_steering_angle = stabilize_steering_angle(self.curr_steering_angle, new_steering_angle)
         self.curr_steering_angle = new_steering_angle
         
         #actual steering operation
         if self.car is not None:
-            datestr = datetime.datetime.now().strftime("%y/%m/%d %H:%M:%S.%f")
+            filename =  '~/DeepPiCar/models/lane_navigation/data/images' + datetime.datetime.now().strftime("%y/%m/%d %H:%M:%S.%f")
+            
             self.car.front_wheels.turn(self.curr_steering_angle)
             
         curr_heading_image = display_heading_line(frame, self.curr_steering_angle)
         
         #trying to save images with display heading lines, might revert to blank images later, move the following line up into the previous if block and change curr_heading_image to frame 
-        cv2.imwrite("%s__%03d.png" % (datestr, self.curr_steering_angle), curr_heading_image)
+        cv2.imwrite("%s__%03d.png" % (filename, self.curr_steering_angle), curr_heading_image)
         show_image("heading", curr_heading_image)
 
         return curr_heading_image
