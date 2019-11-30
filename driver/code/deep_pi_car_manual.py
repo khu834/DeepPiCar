@@ -96,7 +96,7 @@ class DeepPiCar(object):
         while self.camera.isOpened():
             _, image_lane = self.camera.read()
             #image_objs = image_lane.copy()
-            i += 1
+            
             self.video_orig.write(image_lane)
             
             #image_objs = self.process_objects_on_road(image_objs)
@@ -142,7 +142,8 @@ class DeepPiCar(object):
             '''if cv2.waitKey(1) & 0xFF == ord('q'):
                 self.cleanup()
                 break'''
-            
+            cv2.imwrite("%s_%03d_%03d.png" % ('image', i, self.lane_follower.curr_steering_angle), image_lane)
+            i += 1
     def process_objects_on_road(self, image):
         image = self.traffic_sign_processor.process_objects_on_road(image)
         return image
