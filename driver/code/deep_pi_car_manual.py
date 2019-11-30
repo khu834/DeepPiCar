@@ -98,7 +98,7 @@ class DeepPiCar(object):
             #image_objs = image_lane.copy()
             i += 1
             self.video_orig.write(image_lane)
-
+            
             #image_objs = self.process_objects_on_road(image_objs)
             #self.video_objs.write(image_objs)
             #show_image('Detected Objects', image_objs)
@@ -111,15 +111,22 @@ class DeepPiCar(object):
             #left turn
             #right turn
             '''if cv2.waitKey(1) & 0xFF == ord('d'):
-                image_lane = self.manual_drive(image_lane, 'd')
-                
+                #image_lane = self.manual_drive(image_lane, 'd')
+                self.curr_steering_angle = self.curr_steering_angle + 5
+                if self.curr_steering_angle > 135:
+                    self.curr_steering_angle = 135
+                self.car.front_wheels.turn(self.curr_steering_angle)
             if cv2.waitKey(1) & 0xFF == ord('a'):
-                image_lane = self.manual_drive(image_lane, 'a')
-            
+                #image_lane = self.manual_drive(image_lane, 'a')
+                self.curr_steering_angle = self.curr_steering_angle - 5
+                if self.curr_steering_angle < 45:
+                    self.curr_steering_angle = 45
+                self.car.front_wheels.turn(self.curr_steering_angle)
             #straigt
             if cv2.waitKey(1) & 0xFF == ord('s'):
-                image_lane = self.manual_drive(image_lane, 's')          
-                        
+                #image_lane = self.manual_drive(image_lane, 's')          
+                self.curr_steering_angle = 90
+                self.car.front_wheels.turn(self.curr_steering_angle)        
             #speed decrease (not implemented yet)
             #if cv2.waitKey(1) & 0xFF == ord('w'):
             
@@ -127,12 +134,15 @@ class DeepPiCar(object):
             #if cv2.waitKey(1) & 0xFF == ord('e'):'''
             if cv2.waitKey(1):
                 input = getch.getch()
+                if input == 'q':
+                    self.cleanup()
+                    break
                 image_lane = self.manual_drive(image_lane, input)
             #this should always be avalible dont comment out
-            if cv2.waitKey(1) & 0xFF == ord('q'):
+            '''if cv2.waitKey(1) & 0xFF == ord('q'):
                 self.cleanup()
-                break
-
+                break'''
+            
     def process_objects_on_road(self, image):
         image = self.traffic_sign_processor.process_objects_on_road(image)
         return image
@@ -155,7 +165,7 @@ def show_image(title, frame, show=_SHOW_IMAGE):
 
 def main():
     with DeepPiCar() as car:
-        car.drive(28)
+        car.drive(45)
 
 
 if __name__ == '__main__':
