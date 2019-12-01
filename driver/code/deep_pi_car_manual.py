@@ -104,7 +104,7 @@ class DeepPiCar(object):
             #show_image('Detected Objects', image_objs)
             
             image_lane = self.manual_drive(image_lane, 'n')
-            self.video_lane.write(image_lane)
+            #self.video_lane.write(image_lane)
             show_image('Lane Lines', image_lane)           
             
             #manual control (comment this out if using cv2 or deeplearninglanefollower)
@@ -166,7 +166,7 @@ def show_image(title, frame, show=_SHOW_IMAGE):
 
 def main():
     with DeepPiCar() as car:
-        car.drive(45)
+        car.drive(40)
 
 
 if __name__ == '__main__':

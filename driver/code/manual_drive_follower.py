@@ -56,13 +56,13 @@ class ManualDriveLaneFollower(object):
             
             self.car.front_wheels.turn(self.curr_steering_angle)
             
-        curr_heading_image = display_heading_line(frame, self.curr_steering_angle)
+        #curr_heading_image = display_heading_line(frame, self.curr_steering_angle)
         
         #trying to save images with display heading lines, might revert to blank images later, move the following line up into the previous if block and change curr_heading_image to frame 
         #cv2.imwrite("%s__%03d.png" % (datetime.datetime.now().strftime("%y/%m/%d %H:%M:%S.%f"), self.curr_steering_angle), curr_heading_image)
-        show_image("heading", curr_heading_image)
+        show_image("heading", frame)
 
-        return curr_heading_image
+        return frame
 
 
 

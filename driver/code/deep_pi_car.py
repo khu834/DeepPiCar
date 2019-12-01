@@ -2,8 +2,8 @@ import logging
 import picar
 import cv2
 import datetime
-from hand_coded_lane_follower import HandCodedLaneFollower
-from objects_on_road_processor import ObjectsOnRoadProcessor
+from end_to_end_lane_follower import EndToEndLaneFollower
+#from objects_on_road_processor import ObjectsOnRoadProcessor
 
 _SHOW_IMAGE = True
 
@@ -42,8 +42,8 @@ class DeepPiCar(object):
         self.front_wheels.turning_offset = 15  # calibrate servo to center
         self.front_wheels.turn(90)  # Steering Range is 45 (left) - 90 (center) - 135 (right)
 
-        self.lane_follower = HandCodedLaneFollower(self)
-        self.traffic_sign_processor = ObjectsOnRoadProcessor(self)
+        self.lane_follower = EndToEndLaneFollower(self)
+        #self.traffic_sign_processor = ObjectsOnRoadProcessor(self)
         # lane_follower = DeepLearningLaneFollower()
 
         self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -127,7 +127,7 @@ def show_image(title, frame, show=_SHOW_IMAGE):
 
 def main():
     with DeepPiCar() as car:
-        car.drive(35)
+        car.drive(40)
 
 
 if __name__ == '__main__':
