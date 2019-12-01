@@ -89,7 +89,7 @@ class DeepPiCar(object):
         Keyword arguments:
         speed -- speed of back wheel, range is 0 (stop) - 100 (fastest)
         """
-
+        datestring = datetime.datetime.now().strftime("%y/%m/%d %H:%M:%S.%f")
         logging.info('Starting to drive at speed %s...' % speed)
         self.back_wheels.speed = speed
         i = 0
@@ -142,7 +142,7 @@ class DeepPiCar(object):
             '''if cv2.waitKey(1) & 0xFF == ord('q'):
                 self.cleanup()
                 break'''
-            cv2.imwrite("%s_%03d_%03d.png" % ('image', i, self.lane_follower.curr_steering_angle), image_lane)
+            cv2.imwrite("%s_%03d_%03d.png" % ('day2', i, self.lane_follower.curr_steering_angle), image_lane)
             i += 1
     def process_objects_on_road(self, image):
         image = self.traffic_sign_processor.process_objects_on_road(image)
@@ -166,7 +166,7 @@ def show_image(title, frame, show=_SHOW_IMAGE):
 
 def main():
     with DeepPiCar() as car:
-        car.drive(40)
+        car.drive(60)
 
 
 if __name__ == '__main__':
