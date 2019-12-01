@@ -60,7 +60,7 @@ class ManualDriveLaneFollower(object):
         
         #trying to save images with display heading lines, might revert to blank images later, move the following line up into the previous if block and change curr_heading_image to frame 
         #cv2.imwrite("%s__%03d.png" % (datetime.datetime.now().strftime("%y/%m/%d %H:%M:%S.%f"), self.curr_steering_angle), curr_heading_image)
-        show_image("heading", frame)
+        #show_image("heading", frame)
 
         return frame
 
